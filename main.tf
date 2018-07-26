@@ -9,17 +9,12 @@ provider "random" {
 
 data "azurerm_subscription" "current" {}
 
-data "null_data_source" "time" {
-  inputs = {
-    end_date = "${timeadd(timestamp(), "${var.years * 365}h")}"
-  }
-}
-
 locals {
-  end_date = "${var.end_date != "" ? var.end_date : data.null_data_source.time.outputs["end_date"]}"
-  name     = "${var.name != "" ? var.name : random_id.default_name.hex}"
-  password = "${var.password != "" ? var.password : random_string.default_password.result}"
-  scope    = "${var.scope != "" ? var.scope : data.azurerm_subscription.current.id}"
+  default_end_date = "${timeadd(timestamp(), "${var.years * 365}h")}"
+  end_date         = "${var.end_date != "" ? var.end_date : local.default_end_date}"
+  name             = "${var.name != "" ? var.name : random_id.default_name.hex}"
+  password         = "${var.password != "" ? var.password : random_string.default_password.result}"
+  scope            = "${var.scope != "" ? var.scope : data.azurerm_subscription.current.id}"
 }
 
 resource "random_string" "default_password" {

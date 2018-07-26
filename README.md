@@ -48,7 +48,7 @@ Example 2:
 
 module "service_principal" {
   source = "innovationnorway/service-principal/azurerm"
-  end_date = "${timeadd(timestamp(), "${(24 * 365) * 2}h")}" # 2 years
+  end_date = "2018-01-01T01:02:03Z"
 }
 
 output "application_id" {
@@ -71,28 +71,50 @@ output "password" {
 
 ### end_date
 
+The End Date which the Password is valid until, formatted as a RFC3339 date string (e.g. `2018-01-01T01:02:03Z`).
+
 ### name
 
 The display name for the service principal.
 
 ### password
 
-The end date which the password is valid until, formatted as a RFC3339 date string (e.g. `2018-01-01T01:02:03Z`).
+The Password for this Service Principal.
 
 ### role
 
+The name of a built-in Role. Default is `Contributor`.
+
 ### scope
+
+The scope at which the Role Assignment applies too. Default is current subscription.
+
+### years
+
+Number of years for which the password will be valid. Conflicts with `end_date`. Default is `1`.
 
 ## Outputs
 
 ### display_name
 
+The Display Name of the Azure Active Directory Application associated with this Service Principal.
+
+### end_date
+
+The End Date which the Password is valid until.
+
 ### application_id
+
+The Application ID.
 
 ### object_id
 
+The Object ID for the Service Principal.
+
 ### password
+
+The Password for this Service Principal.
 
 ### role_assignment_id
 
-
+The Role Assignment ID.
